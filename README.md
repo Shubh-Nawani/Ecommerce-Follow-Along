@@ -43,6 +43,10 @@ Integration with the backend
 - Install all the tools and dependencies to be used in the development environment.
 Understand how a server communicates to its client with the help of an API.
 Create a basic Node.js server using Express.
+Milestone 2: Project Setup and Login Page
+Achievements in this Milestone:
+In Milestone 2, the foundation for the frontend and backend of the e-commerce application was laid out. Here's what was accomplished:
+
 
 Milestone 3: Project Setup for Backend 🚀
 
@@ -114,5 +118,28 @@ npm start
 Verify database connection:
 
 Check the console for a success message confirming the MongoDB connection.
+
+Project Structure Setup:
+
+The project directory was organized into separate frontend and backend folders to maintain a clean and scalable structure.
+Frontend Setup:
+
+A React application was initialized in the frontend folder using create-react-app, providing a solid foundation for building the user interface.
+Tailwind CSS was configured to style the frontend with utility-first, responsive styles, ensuring a modern and customizable design approach.
+Backend Setup:
+
+A basic Node.js server was set up in the backend folder using Express, laying the groundwork for API integrations in future milestones.
+nodemon was installed and configured to automatically restart the server on code changes for a smoother development experience.
+Login Page Development:
+
+A Login Page was created in React to allow users to authenticate with the system. The page includes:
+Email and password input fields.
+A styled submit button.
+Basic form handling using React hooks for managing input values and form submission.
+Tailwind CSS was used to style the Login Page, making it responsive and visually appealing.
+Deployment Preparation:
+
+Initial steps for deploying the frontend app using GitHub Pages were set up, including the installation of gh-pages and configuration of the necessary deployment scripts.
+
 
 
