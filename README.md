@@ -20,9 +20,26 @@ This project is a full-fledged E-Commerce Application built using the MERN stack
 - Overview of MongoDB, Express.js, React.js, and Node.js.  
 - Understanding the benefits of using a JavaScript-only approach for full-stack development.  
 
-### **REST API Structure and Endpoints:**  
-- Introduction to RESTful architecture.  
-- Planning API endpoints for user authentication, product management, and order handling.  
+3. Database Schema Design
+ MongoDB Data modeling
+ It expresses the kind of data and how it is represented that exists in.
+ 
+4. Authentication in Web Applications :
+It verifies the user's identity for safe access.
+This is required to allow purchases but also to protect the sensitive users' information.
+ 
+### Live Demo
+In this lecture, we gave a live demo of the e-commerce application in its fully working version, in the following points:
+Functionality
+User interface
+Integration with the backend
+- Install all the tools and dependencies to be used in the development environment.
+Understand how a server communicates to its client with the help of an API.
+Create a basic Node.js server using Express.
+Milestone 2: Project Setup and Login Page
+Achievements in this Milestone:
+In Milestone 2, the foundation for the frontend and backend of the e-commerce application was laid out. Here's what was accomplished:
+
 
 ### **Database Schema Design Basics:**  
 - Introduction to MongoDB schema design.  
@@ -155,7 +172,29 @@ app.use((req, res, next) => {
    - Use tools like Postman or `curl` to test endpoints.
    - Example: `GET http://localhost:5000/`
 
----
+Project Structure Setup:
+
+The project directory was organized into separate frontend and backend folders to maintain a clean and scalable structure.
+Frontend Setup:
+
+A React application was initialized in the frontend folder using create-react-app, providing a solid foundation for building the user interface.
+Tailwind CSS was configured to style the frontend with utility-first, responsive styles, ensuring a modern and customizable design approach.
+Backend Setup:
+
+A basic Node.js server was set up in the backend folder using Express, laying the groundwork for API integrations in future milestones.
+nodemon was installed and configured to automatically restart the server on code changes for a smoother development experience.
+Login Page Development:
+
+A Login Page was created in React to allow users to authenticate with the system. The page includes:
+Email and password input fields.
+A styled submit button.
+Basic form handling using React hooks for managing input values and form submission.
+Tailwind CSS was used to style the Login Page, making it responsive and visually appealing.
+Deployment Preparation:
+
+Initial steps for deploying the frontend app using GitHub Pages were set up, including the installation of gh-pages and configuration of the necessary deployment scripts.
+
+
 
 ## **Next Steps**
 In the next milestone, we will:
