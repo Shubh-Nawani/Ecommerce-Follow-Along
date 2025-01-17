@@ -47,6 +47,78 @@ Milestone 2: Project Setup and Login Page
 Achievements in this Milestone:
 In Milestone 2, the foundation for the frontend and backend of the e-commerce application was laid out. Here's what was accomplished:
 
+
+Milestone 3: Project Setup for Backend 🚀
+
+In this milestone, we focused on setting up the backend to support the growing needs of our e-commerce application. This involved structuring backend code, connecting to MongoDB, and implementing basic error handling.
+
+Key Achievements
+
+Backend Folder Structure:
+
+Organized the backend code into dedicated folders:
+
+routes/: For defining API routes.
+
+controllers/: To handle request and response logic.
+
+models/: For database schemas and models.
+
+middlewares/: For reusable middleware functions.
+
+utils/: For utility/helper functions.
+
+Server Setup:
+
+Initialized a Node.js server using Express.js.
+
+Configured the server to listen on a designated port.
+
+Database Connection:
+
+Integrated MongoDB for efficient data storage and management.
+
+Verified the connection between the server and MongoDB.
+
+Error Handling:
+
+Added basic error-handling mechanisms to:
+
+Provide clear error messages for debugging.
+
+Ensure the server runs smoothly under various conditions.
+
+Documentation Updates:
+
+Updated the README file to reflect progress in Milestone 3.
+
+Getting Started
+
+To set up the backend on your local machine:
+
+Clone the repository:
+
+git clone <repository-link>
+cd Ecommerce-Follow-Along
+
+Install dependencies:
+
+cd backend
+npm install
+
+Create a .env file in the backend/ directory with the following variables:
+
+PORT=5000
+MONGO_URI=<your-mongodb-connection-string>
+
+Run the server:
+
+npm start
+
+Verify database connection:
+
+Check the console for a success message confirming the MongoDB connection.
+
 Project Structure Setup:
 
 The project directory was organized into separate frontend and backend folders to maintain a clean and scalable structure.
@@ -68,5 +140,6 @@ Tailwind CSS was used to style the Login Page, making it responsive and visually
 Deployment Preparation:
 
 Initial steps for deploying the frontend app using GitHub Pages were set up, including the installation of gh-pages and configuration of the necessary deployment scripts.
+
 
 
