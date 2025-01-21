@@ -344,3 +344,37 @@ In this milestone, I focused on creating the frontend Sign-Up Page for the E-com
 - Debugging input validation logic for edge cases.  
 - Ensuring compatibility with different browsers.  
 
+## Milestone 6: Backend Endpoint for Secure Signup 🚀
+
+### Overview
+In this milestone, we focused on creating a secure backend endpoint for the Signup page. This involved encrypting user passwords and securely storing user data in the database.
+
+### Features Implemented
+1. **Password Encryption**:
+   - Used `bcrypt` to hash user passwords during the signup process.
+   - Ensured only the hashed password is stored in the database, protecting user data from potential breaches.
+
+2. **User Data Storage**:
+   - Designed a schema to store user details, including:
+     - Name
+     - Email
+     - Password (hashed)
+     - Additional relevant fields as required.
+   - Ensured proper validation and error handling during the signup process.
+
+### Technologies Used
+- **Node.js** for backend logic.
+- **Express.js** for building the API endpoint.
+- **bcrypt** for password hashing.
+- **MongoDB** as the database to store user data.
+
+### How It Works
+1. Users submit their details through the signup form.
+2. The backend API hashes the password using `bcrypt`.
+3. The hashed password, along with other user details, is stored in the MongoDB database.
+
+### Code Repository
+You can find the updated code for this milestone [here](https://github.com/Shubh-Nawani/Ecommerce-Follow-Along/tree/main).
+
+---
+
