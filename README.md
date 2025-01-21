@@ -84,9 +84,6 @@ The repository includes:
 
 ---
 
-Here’s a README update for **Milestone 3: Project Setup for Backend**:
-
----
 
 # **Milestone 3: Project Setup for Backend** 🚀
 
@@ -194,19 +191,8 @@ Deployment Preparation:
 
 Initial steps for deploying the frontend app using GitHub Pages were set up, including the installation of gh-pages and configuration of the necessary deployment scripts.
 
-
-
-## **Next Steps**
-In the next milestone, we will:
-- Develop additional API routes for product and user management.
-- Implement more advanced middleware for authentication and validation.
-- Begin integrating the frontend with the backend.
-
 ---
 
-Here’s an updated README section tailored for **Milestone 4: Creating User Model and Controller**:
-
----
 
 # **Milestone 4: Creating User Model and Controller** 🌟
 
@@ -336,9 +322,25 @@ backend/
 
 ---
 
-## **Next Steps**
-In the next milestone, we’ll:
-- Add authentication to secure user-related routes.
-- Explore advanced features like JWT-based login and role-based access control.
 
----
+
+### Milestone 5: Building the Sign-Up Page  
+In this milestone, I focused on creating the frontend Sign-Up Page for the E-commerce application and implemented form validation to ensure smooth user interaction and data integrity.
+
+#### Key Accomplishments:  
+1. **Sign-Up Page Design**:  
+   - Developed a clean and user-friendly UI using HTML and CSS.  
+   - Included fields for Name, Email, and Password.  
+
+2. **Form Validation**:  
+   - Ensured that email addresses follow a valid format (e.g., `example@domain.com`).  
+   - Added password validation to meet minimum security criteria, such as length and complexity.  
+   - Provided error messages for invalid inputs.  
+
+3. **Responsive Design**:  
+   - The Sign-Up Page is responsive and works well across different devices.  
+
+#### Challenges Faced:  
+- Debugging input validation logic for edge cases.  
+- Ensuring compatibility with different browsers.  
+
