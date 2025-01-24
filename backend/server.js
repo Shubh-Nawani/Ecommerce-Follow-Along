@@ -7,6 +7,7 @@ app.use(express.json())
 
 app.use('/api/user', userRoute)
 
+
 app.get("/", (req, res) => { 
 
     res.send("STATUS CODE: 200")
@@ -15,8 +16,7 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
     try {
-        res.send("User creation successfull")
-        console.log("Running")
+        res.send("Successfull")
     } catch (error) {
         res.status(500).send("Server Error")
     }
