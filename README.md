@@ -377,4 +377,272 @@ In this milestone, we focused on creating a secure backend endpoint for the Sign
 You can find the updated code for this milestone [here](https://github.com/Shubh-Nawani/Ecommerce-Follow-Along/tree/main).
 
 ---
+# Milestone 7: Create a Backend Endpoint for User Login
 
+## Welcome, Kalvians! 🌟
+
+In this milestone, we will create a backend endpoint to handle user login by validating credentials and verifying encrypted passwords stored in the database. Let's dive in!
+
+---
+
+## Learning Goals 🎯
+By the end of this milestone, you will:
+
+- Understand how to validate user credentials during login.
+- Learn how to compare an encrypted password with the user's input.
+
+---
+
+## Why Encrypt Passwords?
+
+### Protect User Data
+Keeps passwords safe even if the database is compromised.
+
+### Privacy
+Ensures passwords are not stored in plain text.
+
+### Compliance
+Meets security standards like GDPR and PCI-DSS.
+
+### Prevents Password Theft
+Hashed passwords are difficult to decipher, increasing security.
+
+---
+
+## How Login Authentication Works 🔑
+
+### 1. User Enters Credentials
+The user provides their email/username and password on the login page.
+
+### 2. Fetch User Data from Database
+- The backend retrieves the user record based on the provided email/username.
+- If the user is not found, return an error: **"User does not exist."**
+
+### 3. Compare Encrypted Passwords
+- Process the user's input password using the same hashing algorithm (e.g., bcrypt).
+- Compare the resulting hash to the stored hashed password.
+- If they match, the user is authenticated; otherwise, send an error.
+
+---
+
+## Steps for Milestone 7 📝
+
+### 1. Create Login Endpoint
+- Accept user credentials (email/username and password) through a POST request.
+- Retrieve the corresponding user from the database.
+
+### 2. Validate Password
+- Use bcrypt to hash the entered password.
+- Compare it with the stored hashed password to authenticate the user.
+
+> **Note:** Password hashing is a one-way process. Instead of decrypting, we compare hashes.
+
+---
+
+## Example Code
+
+### Backend Endpoint
+```javascript
+const express = require('express');
+const bcrypt = require('bcrypt');
+const User = require('../models/User'); // Import your User model
+
+const router = express.Router();
+
+// Login Endpoint
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User does not exist' });
+    }
+
+    // Compare hashed passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // Authentication successful
+    res.status(200).json({ message: 'Login successful', user: { email: user.email } });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+});
+
+module.exports = router;
+```
+
+---
+
+
+
+# Milestone 8: Create a Frontend Card Component and Design the Homepage
+
+## Welcome, Kalvians! 🌟
+
+In this milestone, we will create a card component for showcasing products and design a homepage layout to display these cards effectively. Let's dive in!
+
+---
+
+## Learning Goals 🎯
+By completing this milestone, you will:
+
+- Learn how to create a reusable card component.
+- Understand how to dynamically display product cards on the homepage.
+
+---
+
+## Why Create Card Components?
+
+### Showcase Products Effectively
+Present product details (e.g., name, price, image) in a visually appealing and organized manner.
+
+### Reusable Design
+A single component can be reused across different pages or sections of your application.
+
+### Improved User Experience
+Allows users to browse and interact with products easily.
+
+### Organized Layout
+Keeps the homepage clean, structured, and professional.
+
+---
+
+## How to Display a Single Card for Multiple Products
+
+### Create a Dynamic Component
+Design a card component that accepts product details as props (e.g., name, price, image).
+
+### Use Mapping
+Iterate over the product list using array mapping and render a card for each product.
+
+### Pass Data Dynamically
+Supply each card with unique product information (e.g., name, price, image).
+
+### Maintain Consistency
+Ensure the layout remains uniform for all cards.
+
+---
+
+## Steps for Milestone 8 📝
+
+### 1. Create the Card Component
+- Design a reusable component with props to accept:
+  - Product name
+  - Product image
+  - Product price
+- Include basic styles for the card (e.g., border, shadow, padding).
+
+### 2. Design the Homepage Layout
+- Set up a layout using CSS Grid or Flexbox for neatly displaying multiple cards.
+- Add responsive styling to ensure the design works on different screen sizes.
+
+---
+
+## Example Code
+
+### Card Component
+```jsx
+import React from 'react';
+import './Card.css'; // Create a separate CSS file for styling
+
+const Card = ({ name, image, price }) => {
+  return (
+    <div className="card">
+      <img src={image} alt={name} className="card-image" />
+      <h3 className="card-title">{name}</h3>
+      <p className="card-price">${price}</p>
+    </div>
+  );
+};
+
+export default Card;
+```
+
+### Homepage Layout
+```jsx
+import React from 'react';
+import Card from './Card';
+import './Homepage.css';
+
+const products = [
+  { id: 1, name: 'Product 1', image: '/images/product1.jpg', price: 29.99 },
+  { id: 2, name: 'Product 2', image: '/images/product2.jpg', price: 19.99 },
+  { id: 3, name: 'Product 3', image: '/images/product3.jpg', price: 39.99 },
+];
+
+const Homepage = () => {
+  return (
+    <div className="homepage">
+      <h1>Our Products</h1>
+      <div className="product-grid">
+        {products.map(product => (
+          <Card
+            key={product.id}
+            name={product.name}
+            image={product.image}
+            price={product.price}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Homepage;
+```
+
+### CSS Example (Card.css)
+```css
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+.card-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.card-title {
+  font-size: 18px;
+  margin: 8px 0;
+}
+
+.card-price {
+  font-size: 16px;
+  color: #007BFF;
+}
+```
+
+### CSS Example (Homepage.css)
+```css
+.homepage {
+  padding: 16px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+```
+
+---
