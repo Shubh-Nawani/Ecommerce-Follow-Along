@@ -28,4 +28,28 @@ const signup = async (req, res) => {
     }
 };
 
-module.exports = signup;
+const signin = async (req, res) => {
+    try {
+        const {email, password} = req.body;
+        const existingUser = await User.findOne({email})
+        if (!existingUser) {
+            return res.status(400).json({msg: "User does not exist"});
+        }
+        const isMatch = await bcrypt.compare(password, existingUser.password);
+        if (!isMatch) {
+            return res.status(400).json({msg: "Invalid credentials"});
+        }
+        else {
+            return res.status(200).json({msg: "User signed in successfully"});
+        }
+
+
+    } catch (err) {
+        res.status(500).send(error.message);
+    }
+}
+
+
+
+
+module.exports = {signup, signin};
