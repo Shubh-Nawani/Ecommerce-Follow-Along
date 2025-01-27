@@ -45,7 +45,7 @@ const signin = async (req, res) => {
 
 
     } catch (err) {
-        res.status(500).send(error.message);
+        res.status(500).send(err.message);
     }
 }
 
