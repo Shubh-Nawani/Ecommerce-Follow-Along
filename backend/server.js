@@ -22,11 +22,14 @@ app.post("/", (req, res) => {
     }
 })
 
-app.listen(8000, async() => {
+const PORT = process.env.PORT
+
+app.listen(PORT, async() => {
     try {
         await connectDB();
-        console.log("Listening on port http://localhost:8000/")
+        console.log(`Listening on port http://localhost:${PORT}`)
     } catch (error) {
         console.error("Server failed to start");
     }
 })
+
