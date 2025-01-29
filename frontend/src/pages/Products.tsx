@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShoppingBag } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
+import ProductForm from '../components/ProductForm';
 
 // Sample product data - in a real app, this would come from an API
 const products = [
@@ -50,6 +51,8 @@ const products = [
 
 export function Products({ onSignOut }: { onSignOut: () => void }) {
   return (
+    <>
+    <ProductForm/>
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow-sm">
@@ -95,5 +98,6 @@ export function Products({ onSignOut }: { onSignOut: () => void }) {
         </div>
       </main>
     </div>
+    </>
   );
 }
