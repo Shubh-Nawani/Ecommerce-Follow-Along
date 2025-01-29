@@ -1,12 +1,13 @@
 const express = require("express")
 const app = express()
 const userRoute = require("./routes/userRoute.js")
+const productRoute = require("./routes/productRoute.js")
 const connectDB = require('./config/db.js')
 require("dotenv").config();
 app.use(express.json())
 
 app.use('/api/user', userRoute)
-
+app.use('/api/products', productRoute)
 
 app.get("/", (req, res) => { 
 
