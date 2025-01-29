@@ -646,3 +646,102 @@ h1 {
 ```
 
 ---
+# Product Form - Milestone 9
+
+## Learning Goals 🎯
+By the end of this milestone, you will:
+- Learn how to create a form to input all the details of a product.
+- Learn how to take multiple images as input.
+
+## Why Create a Product Form?
+This milestone focuses on building a form that allows users to input product details. These details will be saved in the database and displayed on the products home page created in the previous milestone.
+
+## Steps for Milestone 9 📝
+1. **Create the form for products**
+   - The form will include fields such as product name, description, price, category, stock, and images.
+2. **Enable multiple image uploads**
+   - Implement a feature to allow users to upload multiple images for a product.
+   
+## Future Enhancements ✨
+- Implement admin access control so that only admins can upload products.
+- Introduce shop profile-based product uploads, allowing only users with a shop profile to add products.
+
+## Technologies Used 🛠️
+- **Frontend:** React.js (with form handling libraries like Formik or React Hook Form)
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Image Uploads:** Multer (for handling file uploads) or Cloudinary (for cloud storage)
+
+## Getting Started 🚀
+### 1. Clone the Repository
+```sh
+ git clone https://github.com/Shubh-Nawani/Ecommerce-Follow-Along.git
+ cd Ecommerce-Follow-Along
+```
+
+### 2. Install Dependencies
+```sh
+ npm install
+```
+
+### 3. Start the Development Server
+```sh
+ npm run dev
+```
+
+### 4. API Endpoints
+- `POST /api/products` - Create a new product
+- `GET /api/products` - Fetch all products
+- `GET /api/products/:id` - Fetch product details
+- `PUT /api/products/:id` - Update a product
+- `DELETE /api/products/:id` - Delete a product
+
+## Contributing 🤝
+Feel free to fork this repository and contribute by adding new features or improving existing ones.
+
+## License 📜
+This project is licensed under the MIT License.
+
+# Welcome to Milestone 10! 🌟
+
+Today, we will create a Mongoose schema for products and an endpoint to store product details. Let’s dive in and understand what this all means!
+
+## Learning Goals 🎯
+
+By the end of this milestone, you will:
+
+- Learn how to write a product schema.
+- Learn how to create an endpoint to validate and store product details in MongoDB.
+
+## Product Schema
+
+Define the structure of product data using Mongoose, including fields such as:
+
+- **Name**
+- **Description**
+- **Price**
+- **Image URL**
+
+Ensure each field has proper validation, such as:
+
+- Required fields
+- Correct data types
+
+## Endpoint Creation
+
+- Build a **POST** endpoint to receive product data.
+- Validate and save the product details to MongoDB.
+
+## Why Validation?
+
+Validation ensures that only valid data is saved in the database, maintaining data integrity and preventing errors.
+
+### Note:
+
+This lesson will help you understand the basics of creating products. Feel free to experiment by adding more features, such as:
+
+- **Creating an admin access system**, allowing only admins to upload products.
+- **Implementing shop profiles**, where only users with a shop profile can upload products.
+
+Happy coding! 🚀
+
