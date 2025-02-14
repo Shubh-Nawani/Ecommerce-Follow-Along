@@ -1,7 +1,10 @@
 const express = require("express");
 const Product = require("../models/productModel");
+const {addProduct} = require("../controllers/productController")
 
 const router = express.Router();
+
+router.post("/post/products", addProduct)
 
 // GET all products
 router.get("/products", async (req, res) => {
