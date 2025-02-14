@@ -1,36 +1,41 @@
-const express = require("express")
-const app = express()
-const userRoute = require("./routes/userRoute.js")
-const productRoute = require("./routes/productRoute.js")
-const connectDB = require('./config/db.js')
-require("dotenv").config();
-app.use(express.json())
+const express = require('express');
+const app = express();
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const userRouter = require('./routes/userRoute')
+app.use(express.json());
+app.use(
+    cors({
+      origin: "http://localhost:5173", // Allow requests from frontend
+      credentials: true, // Allow credentials (cookies, sessions, etc.)
+    })
+  );
+dotenv.config();
 
-app.use('/api/user', userRoute)
-app.use('/api/products', productRoute)
+const productRoute = require("./routes/productRoute");
+app.use("/api", productRoute);
 
-app.get("/", (req, res) => { 
 
-    res.send("STATUS CODE: 200")
-    console.log("Backend is running")
-})
+app.use("/api/users", userRouter);
 
-app.post("/", (req, res) => {
+
+app.get("/", (req, res) => {
     try {
-        res.send("Successfull")
-    } catch (error) {
-        res.status(500).send("Server Error")
+        return res.status(200).json({message: "Backend is running..."});
+    } catch (err) {
+        return res.status(500).json({error: err.message});
     }
-})
+});
 
-const PORT = process.env.PORT
 
-app.listen(PORT, async() => {
+const PORT = process.env.PORT || 4000;
+
+app.listen(PORT, async () => {
     try {
         await connectDB();
-        console.log(`Listening on port http://localhost:${PORT}`)
-    } catch (error) {
-        console.error("Server failed to start");
+        console.log(`Server is listening on http://localhost:${PORT}`);
+    } catch (err) {
+        console.error(err.message);
     }
-})
-
+});

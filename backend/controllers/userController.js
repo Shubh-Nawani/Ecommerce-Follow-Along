@@ -1,55 +1,56 @@
-const bcrypt = require("bcrypt");
-const User = require("../models/userModel.js");
+const User = require('../models/userModel');
+const bcyrpt = require('bcrypt');
 
 const signup = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const {email, password} = req.body;
 
-        // Check if the user already exists
-        const user = await User.findOne({ email });
-        if (user) {
-            return res.status(400).send("User already exists");
+        const existingUser = await User.findOne({email});
+
+        if (existingUser) {
+            return res.status(400).json({message: "User Already Exists!"});
         }
 
-        // Hash the password using bcrypt
-        const saltRounds = 10; // Number of salt rounds for hashing
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const hash = await bcyrpt.hash(password, 10);
 
-        // Create a new user with the hashed password
         const newUser = new User({
             email,
-            password: hashedPassword,
+            password: hash
         });
 
-        await newUser.save();
-        res.send("User created successfully");
-    } catch (error) {
-        res.status(500).send(error.message);
+        await newUser.save()
+        return res.status(201).json({message: "Profile Created Successfully!"});
+
+        
+    } catch (err) {
+        return res.status(500).json({error: err.message});
     }
 };
 
-const signin = async (req, res) => {
+const login = async (req, res) => {
     try {
         const {email, password} = req.body;
-        const existingUser = await User.findOne({email})
+
+        const existingUser = await User.findOne({email});
+
         if (!existingUser) {
-            return res.status(400).json({msg: "User does not exist"});
+            return res.status(400).json({message: "User Does Not Exists!"});
         }
-        const isMatch = await bcrypt.compare(password, existingUser.password);
+        
+
+        const isMatch = await bcyrpt.compare(password, existingUser.password);
+
         if (!isMatch) {
-            return res.status(400).json({msg: "Invalid credentials"});
+            return res.status(400).json({message: "Password Match Failed!"});
         }
-        else {
-            return res.status(200).json({msg: "User signed in successfully"});
-        }
+
+        return res.status(200).json({message: "Login Successfull!"});
+
 
 
     } catch (err) {
-        res.status(500).send(err.message);
+        return res.status(500).json({message: err.message});
     }
-}
+};
 
-
-
-
-module.exports = {signup, signin};
+module.exports = {signup, login};
