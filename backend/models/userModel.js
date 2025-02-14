@@ -1,31 +1,20 @@
-const mongoose = require("mongoose")
-
-function validatePassword(password) {
-    return (
-        /[A-Z]/.test(password) &&
-        /[a-z]/.test(password) &&
-        /[0-9]/.test(password) &&
-        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
-    )
-}
-
-
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
+    
     email: {
         type: String,
-        required: true,
-        
+        unique: true,
+        required: true
     },
+
     password: {
         type: String,
         required: true,
-        
-        validate: {
-            validator: validatePassword,
-            message: "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
-    },
-},
-})
+        minlength: 6
+    }
+});
 
-module.exports = mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
+
+module.exports = User;
