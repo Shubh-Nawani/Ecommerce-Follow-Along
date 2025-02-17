@@ -20,6 +20,7 @@ export default function Nav({ cart, userName }) {  // Accept cart and userName a
         <Link to="/cart" className="hover:text-gray-300">
           Cart ({cart.length})
         </Link>
+        <Link to="/address-form" className="hover:text-gray-300">Address</Link>
         
         {userName && (
           <span className="text-white">Welcome, {userName}</span> // Display userName if logged in
