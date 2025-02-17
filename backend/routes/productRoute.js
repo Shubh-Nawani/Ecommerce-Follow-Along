@@ -1,11 +1,13 @@
 const express = require("express");
 const Product = require("../models/productModel");
-const {addProduct, updateProduct} = require("../controllers/productController")
+const {addProduct, updateProduct, deleteProduct} = require("../controllers/productController")
 
 const router = express.Router();
 
 router.post("/post/products", addProduct)
 router.put("/put/products", updateProduct)
+
+router.delete("/products/:id", deleteProduct)
 
 // GET all products
 router.get("/products", async (req, res) => {

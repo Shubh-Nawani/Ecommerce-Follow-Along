@@ -3,7 +3,8 @@ const app = express();
 const dotenv = require('dotenv');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const userRouter = require('./routes/userRoute')
+const userRouter = require('./routes/userRoute');
+const router = require("./routes/productRoute");
 app.use(express.json());
 app.use(
     cors({
@@ -13,8 +14,8 @@ app.use(
   );
 dotenv.config();
 
-const productRoute = require("./routes/productRoute");
-app.use("/api", productRoute);
+
+app.use("/api", router);
 
 
 app.use("/api/users", userRouter);
