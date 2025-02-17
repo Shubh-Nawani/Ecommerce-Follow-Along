@@ -48,6 +48,7 @@ export default function Home() {
               <div key={product._id} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
                 <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-lg" />
                 <h4 className="text-xl font-semibold mt-4">{product.name}</h4>
+                <p className="text-gray-600">{product.description}</p>
                 <p className="text-gray-600">${product.price}</p>
                 <button className="mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700">
                   <ShoppingCart className="w-5 h-5" />
