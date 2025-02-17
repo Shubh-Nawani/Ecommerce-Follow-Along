@@ -1,8 +1,7 @@
-// Nav.jsx
 import React from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
-export default function Nav() {
+export default function Nav({ cart }) {  // Accept cart as prop
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -17,7 +16,9 @@ export default function Nav() {
       <div className="flex space-x-6">
         <Link to="/home" className="hover:text-gray-300">Home</Link>
         <Link to="/add-product" className="hover:text-gray-300">Add Product</Link>
-        <Link to="/cart" className="hover:text-gray-300">Cart</Link>
+        <Link to="/cart" className="hover:text-gray-300">
+          Cart ({cart.length})
+        </Link>
         <button 
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
