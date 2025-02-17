@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { ShoppingCart, LogOut } from "lucide-react";
+import { ShoppingCart, LogOut, Trash2 } from "lucide-react";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -18,6 +18,18 @@ export default function Home() {
   const handleLogout = () => {
     navigate("/"); // Redirect to login page
   };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8000/api/products/${id}`);
+      
+      setProducts((prevProducts) => prevProducts.filter(product => product._id !== id)); // Functional state update
+  
+    } catch (error) {
+      console.error("Error deleting product:", error);
+    }
+  };
+  
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -50,10 +62,19 @@ export default function Home() {
                 <h4 className="text-xl font-semibold mt-4">{product.name}</h4>
                 <p className="text-gray-600">{product.description}</p>
                 <p className="text-gray-600">${product.price}</p>
-                <button className="mt-3 bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700">
-                  <ShoppingCart className="w-5 h-5" />
-                  Add to Cart
-                </button>
+                <div className="flex justify-between mt-3">
+                  <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700">
+                    <ShoppingCart className="w-5 h-5" />
+                    Add to Cart
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product._id)}
+                    className="bg-red-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-red-700"
+                  >
+                    <Trash2 className="w-5 h-5" />
+                    Delete
+                  </button>
+                </div>
               </div>
             ))
           ) : (
