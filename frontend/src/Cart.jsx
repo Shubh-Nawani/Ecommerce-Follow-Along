@@ -24,6 +24,14 @@ export default function Cart() {
     setCart(updatedCart);
   };
 
+  const updateCartInBackend = async (updatedCart) => {
+    try {
+      await axios.put("/api/cart", { cart: updatedCart }); // Send updated cart to backend
+    } catch (error) {
+      console.error("Error updating cart:", error);
+    }
+  };
+
   const decrementQuantity = (index) => {
     const updatedCart = [...cart];
     if (updatedCart[index].quantity > 1) {
