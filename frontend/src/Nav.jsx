@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
-export default function Nav({ cart }) {  // Accept cart as prop
+export default function Nav({ cart, userName }) {  // Accept cart and userName as props
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Clear authentication data (for example, token, user info from local storage)
     localStorage.removeItem("authToken"); // Example: Removing the auth token
+    localStorage.removeItem("user"); // Removing the user's name or info
     navigate("/"); // Redirect to the login page (or home)
   };
 
@@ -19,6 +20,11 @@ export default function Nav({ cart }) {  // Accept cart as prop
         <Link to="/cart" className="hover:text-gray-300">
           Cart ({cart.length})
         </Link>
+        
+        {userName && (
+          <span className="text-white">Welcome, {userName}</span> // Display userName if logged in
+        )}
+
         <button 
           onClick={handleLogout}
           className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
