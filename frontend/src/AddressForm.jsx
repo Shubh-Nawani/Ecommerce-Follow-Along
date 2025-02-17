@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import axios from 'axios'; // Import Axios for making HTTP requests
 
 export default function AddressForm() {
   const navigate = useNavigate(); // Hook to navigate after form submission
@@ -11,6 +12,8 @@ export default function AddressForm() {
     zipCode: '',
     addressType: ''
   });
+  const [loading, setLoading] = useState(false); // Track loading state
+  const [error, setError] = useState(null); // Track errors
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,14 +23,32 @@ export default function AddressForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Normally, you would send the address to the backend here
-    // For now, we will just log it to the console
-    console.log('Address Submitted:', address);
-    
-    // Redirect back to the profile page after form submission
-    navigate('/home');
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Sending the address data to the backend
+      const response = await axios.post('http://localhost:8000/api/address', address, {
+        headers: {
+          'Content-Type': 'application/json',
+          // Add any other headers, e.g., Authorization if needed
+        }
+      });
+      
+      // Handle success
+      console.log('Address Submitted:', response.data);
+
+      // Redirect back to the profile page after form submission
+      navigate('/home');
+    } catch (err) {
+      // Handle error
+      setError('Failed to submit the address. Please try again.');
+      console.error('Error submitting address:', err);
+    } finally {
+      setLoading(false); // Set loading to false once the request completes
+    }
   };
 
   return (
@@ -111,9 +132,13 @@ export default function AddressForm() {
         </div>
 
         <div>
-          <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded-md">Submit</button>
+          <button type="submit" className="w-full bg-indigo-600 text-white p-2 rounded-md" disabled={loading}>
+            {loading ? 'Submitting...' : 'Submit'}
+          </button>
         </div>
       </form>
+      
+      {error && <div className="text-red-500 mt-4">{error}</div>}
     </div>
   );
 }

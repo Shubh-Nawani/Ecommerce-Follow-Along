@@ -18,22 +18,22 @@ const getProfile = async (req, res) => {
 };
 
 const addAddress = async (req, res) => {
-  const { address } = req.body;
+  const { userId, address } = req.body;
 
   try {
-    const profile = await Profile.findOne({ userId: req.userId });
 
-    if (!profile) {
-      return res.status(404).json({ message: "Profile not found" });
-    }
+    const newProfile = new Profile({
+        userId,
+        address
+    })
 
-    profile.addresses.push(address);
-    await profile.save();
+    await newProfile.save()
 
-    res.status(200).json({ message: "Address added successfully", profile });
+
+    res.status(200).json({ message: "Address added successfully", address});
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error adding address" });
+    res.status(500).json({error: error.message});
   }
 };
 

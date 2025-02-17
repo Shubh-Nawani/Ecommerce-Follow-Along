@@ -6,9 +6,9 @@ const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 // Protected route to fetch profile data
-router.get("/", authMiddleware, getProfile);
+router.get("/", getProfile);
 
 // Protected route to add address
-router.post("/add-address", authMiddleware, addAddress);
+router.post("/add-address", addAddress);
 
 module.exports = router;
