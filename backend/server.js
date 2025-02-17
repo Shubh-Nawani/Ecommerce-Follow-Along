@@ -5,6 +5,7 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const userRouter = require('./routes/userRoute');
 const router = require("./routes/productRoute");
+const userCart = require("./routes/cart")
 app.use(express.json());
 app.use(
     cors({
@@ -13,6 +14,8 @@ app.use(
     })
   );
 dotenv.config();
+
+app.use("/saved", userCart)
 
 
 app.use("/api", router);
