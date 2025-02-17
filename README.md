@@ -1,6 +1,7 @@
-## **Ecommerce-Follow-Along**  
 
-This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerce application built across **18 milestones**:
+## **Ecommerce-Follow-Along**
+
+This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerce application built across **20 milestones**:
 
 ### **1. Project Overview (Milestone 1)**  
 - Introduction to the **MERN stack**  
@@ -96,9 +97,21 @@ This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerc
 - Improved UI/UX for better user experience  
 - Finalized **order history management** and **order status tracking**
 
+### **19. Profile Page Enhancement (Milestone 19)**  
+- Created a **frontend profile page**  
+- Displayed **user information** like name, email, and addresses  
+- Added an **"Add Address" button** for managing user addresses  
+- Displayed a message when no address exists: "No address found"
+
+### **20. User Email Endpoint (Milestone 20)**  
+- Created a **backend endpoint** to send user data via email (no external service like Nodemailer for simplicity)  
+- Integrated **user data** (name, email, and addresses) for display  
+- Sent **user data** securely for notifications or other purposes
+
 ---
 
 ### **Next Steps** 🚀  
 - **Optimization for mobile responsiveness**  
 - **Scalability improvements**  
 - Add more advanced features like **wishlist** and **user reviews**
+
