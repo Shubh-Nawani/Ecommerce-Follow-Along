@@ -1,96 +1,58 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Cart = () => {
+export default function Cart() {
   const [cart, setCart] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const userId = "user-id"; // Replace with actual user ID (e.g., from auth token or session)
+  const navigate = useNavigate();
 
-  // Load cart from the backend when the component mounts
+  // Load cart from localStorage when the component mounts
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/cart/${userId}`);
-        setCart(response.data.cart || []);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error loading cart:", error);
-        setLoading(false);
-      }
-    };
-    fetchCart();
-  }, [userId]);
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
+  }, []);
 
-  // Save cart to the backend
-  const saveCartToDatabase = async (cartItems) => {
-    try {
-      await axios.post("http://localhost:8000/api/cart/save-cart", {
-        userId,
-        cartItems,
-      });
-    } catch (error) {
-      console.error("Error saving cart:", error);
+  // Save the cart to localStorage whenever it changes
+  useEffect(() => {
+    if (cart.length > 0) {
+      localStorage.setItem("cart", JSON.stringify(cart));
     }
-  };
+  }, [cart]);
 
-  // Increment product quantity
   const incrementQuantity = (index) => {
     const updatedCart = [...cart];
     updatedCart[index].quantity += 1;
     setCart(updatedCart);
-    saveCartToDatabase(updatedCart);
   };
 
-  // Decrement product quantity
   const decrementQuantity = (index) => {
     const updatedCart = [...cart];
     if (updatedCart[index].quantity > 1) {
       updatedCart[index].quantity -= 1;
       setCart(updatedCart);
-      saveCartToDatabase(updatedCart);
     }
   };
 
-  // Remove item from cart
   const removeItem = (index) => {
     const updatedCart = cart.filter((_, i) => i !== index);
     setCart(updatedCart);
-    saveCartToDatabase(updatedCart);
   };
 
-  // Calculate the total price
   const calculateTotal = () => {
-    return cart.reduce(
-      (sum, item) => sum + item.price * (item.quantity || 1),
-      0
-    ).toFixed(2);
+    return cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
   };
 
-  // Handle checkout
-  const handleCheckout = async () => {
-    try {
-      const response = await axios.post("http://localhost:8000/api/checkout", {
-        userId,
-        cartItems: cart,
-      });
-      console.log("Checkout successful:", response.data);
-      // Optionally clear cart or redirect
-    } catch (error) {
-      console.error("Error during checkout:", error);
-    }
+  const handleCheckout = () => {
+    alert("Proceeding to checkout...");
+    // Proceed to checkout page or process order
+    navigate("/checkout");
   };
 
-  // Handle continue shopping
   const goBackToShopping = () => {
-    // Redirect or navigate to the home page or products page
-    window.location.href = "/home"; // Or use react-router's `navigate("/home")`
+    navigate("/home"); // Navigate back to home page
   };
 
-  return loading ? (
-    <div>Loading cart...</div>
-  ) : (
+  return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navigation */}
       <nav className="bg-indigo-600 text-white py-4 px-6 flex justify-between items-center shadow-md">
         <h1 className="text-2xl font-bold">Tech Store</h1>
         <button
@@ -131,7 +93,7 @@ const Cart = () => {
                         >
                           -
                         </button>
-                        <span className="px-2">{product.quantity || 1}</span>
+                        <span className="px-2">{product.quantity}</span>
                         <button
                           onClick={() => incrementQuantity(index)}
                           className="px-2 py-1 text-gray-600 hover:bg-gray-100"
@@ -142,7 +104,7 @@ const Cart = () => {
 
                       {/* Price */}
                       <span className="w-20 text-right font-medium">
-                        ${((product.price * (product.quantity || 1)).toFixed(2))}
+                        ${(product.price * product.quantity).toFixed(2)}
                       </span>
 
                       {/* Remove button */}
@@ -194,6 +156,4 @@ const Cart = () => {
       </footer>
     </div>
   );
-};
-
-export default Cart;
+}
