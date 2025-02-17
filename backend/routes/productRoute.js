@@ -4,8 +4,8 @@ const {addProduct, updateProduct, deleteProduct} = require("../controllers/produ
 
 const router = express.Router();
 
-router.post("/post/products", addProduct)
-router.put("/put/products", updateProduct)
+router.post("/products", addProduct)
+router.put("/products", updateProduct)
 
 router.delete("/products/:id", deleteProduct)
 

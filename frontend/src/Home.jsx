@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ShoppingCart, LogOut, Trash2 } from "lucide-react";
+import Nav from "./Nav"; // Import the Nav component
 
 export default function Home() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]);
 
   // Fetch products from backend
   useEffect(() => {
@@ -13,7 +15,16 @@ export default function Home() {
       .get("http://localhost:8000/api/products")
       .then((response) => setProducts(response.data))
       .catch((error) => console.error("Error fetching products:", error));
+
+    // Load the cart from localStorage when the component mounts
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
   }, []);
+
+  // Save the cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const handleLogout = () => {
     navigate("/"); // Redirect to login page
@@ -22,28 +33,23 @@ export default function Home() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8000/api/products/${id}`);
-      
-      setProducts((prevProducts) => prevProducts.filter(product => product._id !== id)); // Functional state update
-  
+      setProducts((prevProducts) => prevProducts.filter((product) => product._id !== id)); // Functional state update
     } catch (error) {
       console.error("Error deleting product:", error);
     }
   };
-  
+
+  const handleAddToCart = (product) => {
+    // Add product to the cart
+    setCart((prevCart) => {
+      const newCart = [...prevCart, product];
+      return newCart;
+    });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-indigo-600 text-white py-4 px-6 flex justify-between items-center shadow-md">
-        <h1 className="text-2xl font-bold">Tech Store</h1>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
-        >
-          <LogOut className="w-5 h-5" />
-          Logout
-        </button>
-      </nav>
+      <Nav /> {/* Use the Nav component */}
 
       {/* Hero Section */}
       <header className="text-center py-16 bg-gradient-to-r from-indigo-500 to-purple-600 text-white">
@@ -57,13 +63,23 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {products.length > 0 ? (
             products.map((product) => (
-              <div key={product._id} className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition">
-                <img src={product.image} alt={product.name} className="w-full h-48 object-cover rounded-lg" />
+              <div
+                key={product._id}
+                className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-48 object-cover rounded-lg"
+                />
                 <h4 className="text-xl font-semibold mt-4">{product.name}</h4>
                 <p className="text-gray-600">{product.description}</p>
                 <p className="text-gray-600">${product.price}</p>
                 <div className="flex justify-between mt-3">
-                  <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700">
+                  <button
+                    onClick={() => handleAddToCart(product)} // Add to cart functionality
+                    className="bg-indigo-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 hover:bg-indigo-700"
+                  >
                     <ShoppingCart className="w-5 h-5" />
                     Add to Cart
                   </button>

@@ -1,6 +1,10 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// App.js
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AuthForm from "./AuthForm";
 import Home from "./Home";
+
+import AddProduct from "./AddProduct";
+import Cart from "./Cart";
 
 function App() {
   return (
@@ -8,6 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<AuthForm />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/add-product" element={<AddProduct />} />
+        <Route path="/cart" element={<Cart />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 ## **Ecommerce-Follow-Along**  
 
-This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerce application built across **11 milestones**:  
+This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerce application built across **15 milestones**:  
 
 ### **1. Project Overview (Milestone 1)**  
 - Introduction to the **MERN stack**  
@@ -60,11 +60,32 @@ This is a full-stack **MERN** (MongoDB, Express.js, React.js, Node.js) e-commerc
 - Enhanced **user experience** with Tailwind CSS  
 - Handled **API errors** gracefully  
 
+### **12. Cart Functionality (Milestone 12)**  
+- Added **Add to Cart** feature on product pages  
+- Saved cart data in **localStorage** to persist across pages and sessions  
+- Displayed the cart in the **Cart page**  
+- Implemented **checkout button** with placeholder functionality  
+- Handled **empty cart** scenario with a friendly message  
+
+### **13. User Authentication (Milestone 13)**  
+- Implemented **JWT authentication**  
+- Protected routes requiring authentication  
+- Added **protected access** to certain user-specific pages  
+
+### **14. Order Management (Milestone 14)**  
+- Developed **order management system**  
+- Linked products to orders for purchase tracking  
+- Set up **order history page** for users  
+
+### **15. Cart Functionality Enhancement (Milestone 15)**  
+- Refined the **Add to Cart** and **Cart page** interactions  
+- Ensured **cart updates** with product removal and quantity adjustments  
+- Incorporated **cart persistence** across sessions  
+- Improved **checkout flow** with payment integration (planned)
+
 ---
 
 ### **Next Steps** 🚀  
-- Implement **cart functionality**  
-- Add **secure authentication** with JWT  
+- Implement **payment gateway integration**  
 - Optimize **backend performance**  
-
-This project focuses on **security, scalability, and user experience**, providing hands-on experience with **modern web development tools**. 🚀
+- Add **user profiles** and **order history management**  
