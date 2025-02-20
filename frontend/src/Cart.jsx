@@ -1,63 +1,116 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Load cart from localStorage when the component mounts
+  // Load cart from both backend and localStorage
   useEffect(() => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setCart(storedCart);
+    const fetchCart = async () => {
+      try {
+        setIsLoading(true);
+        // Try to get cart from backend first
+        const response = await axios.get("/api/cart");
+        const backendCart = response.data.cart;
+        
+        // Get cart from localStorage as fallback
+        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+        
+        // Use backend cart if available, otherwise use localStorage
+        const finalCart = backendCart?.length ? backendCart : localCart;
+        setCart(finalCart);
+      } catch (error) {
+        console.error("Error fetching cart:", error);
+        // Fallback to localStorage if backend fails
+        const localCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(localCart);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCart();
   }, []);
 
-  // Save the cart to localStorage whenever it changes
-  useEffect(() => {
-    if (cart.length > 0) {
-      localStorage.setItem("cart", JSON.stringify(cart));
-    }
-  }, [cart]);
-
-  const incrementQuantity = (index) => {
-    const updatedCart = [...cart];
-    updatedCart[index].quantity += 1;
-    setCart(updatedCart);
-  };
-
-  const updateCartInBackend = async (updatedCart) => {
+  // Debounced cart update function
+  const updateCart = async (updatedCart) => {
     try {
-      await axios.put("/api/cart", { cart: updatedCart }); // Send updated cart to backend
+      setError(null);
+      // Update local state and localStorage immediately
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      
+      // Update backend
+      await axios.put("/api/cart", { cart: updatedCart });
     } catch (error) {
+      setError("Failed to update cart. Please try again.");
       console.error("Error updating cart:", error);
     }
   };
 
-  const decrementQuantity = (index) => {
+  const incrementQuantity = async (index) => {
+    const updatedCart = [...cart];
+    updatedCart[index].quantity += 1;
+    await updateCart(updatedCart);
+  };
+
+  const decrementQuantity = async (index) => {
     const updatedCart = [...cart];
     if (updatedCart[index].quantity > 1) {
       updatedCart[index].quantity -= 1;
-      setCart(updatedCart);
+      await updateCart(updatedCart);
     }
   };
 
-  const removeItem = (index) => {
-    const updatedCart = cart.filter((_, i) => i !== index);
-    setCart(updatedCart);
+  const removeItem = async (index) => {
+    try {
+      setError(null);
+      const updatedCart = cart.filter((_, i) => i !== index);
+      await updateCart(updatedCart);
+      
+      // If cart is empty, clear localStorage
+      if (updatedCart.length === 0) {
+        localStorage.removeItem("cart");
+      }
+    } catch (error) {
+      setError("Failed to remove item. Please try again.");
+      console.error("Error removing item:", error);
+    }
   };
 
   const calculateTotal = () => {
     return cart.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
   };
 
-  const handleCheckout = () => {
-    alert("Proceeding to checkout...");
-    // Proceed to checkout page or process order
-    navigate("/checkout");
+  const handleCheckout = async () => {
+    try {
+      setError(null);
+      
+      navigate("/billingDetails");
+    } catch (error) {
+      setError("Unable to proceed to checkout. Please try again.");
+      console.error("Error during checkout:", error);
+    }
   };
 
   const goBackToShopping = () => {
-    navigate("/home"); // Navigate back to home page
+    navigate("/home");
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading your cart...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -74,12 +127,20 @@ export default function Cart() {
       {/* Cart Section */}
       <div className="container mx-auto px-6 py-12">
         <h3 className="text-3xl font-bold text-gray-800 text-center mb-8">Your Cart</h3>
+        
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
+            {error}
+          </div>
+        )}
+
         <div className="bg-white p-6 rounded-xl shadow-lg">
           {cart.length > 0 ? (
             <div>
               <ul className="space-y-4 mb-4">
                 {cart.map((product, index) => (
-                  <li key={index} className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4">
+                  <li key={product.id || index} className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b pb-4">
                     <div className="flex items-center">
                       {product.image && (
                         <img
@@ -92,11 +153,10 @@ export default function Cart() {
                     </div>
 
                     <div className="flex items-center mt-2 sm:mt-0">
-                      {/* Quantity controls */}
                       <div className="flex items-center border rounded mr-4">
                         <button
                           onClick={() => decrementQuantity(index)}
-                          className="px-2 py-1 text-gray-600 hover:bg-gray-100"
+                          className="px-2 py-1 text-gray-600 hover:bg-gray-100 disabled:opacity-50"
                           disabled={product.quantity <= 1}
                         >
                           -
@@ -110,12 +170,10 @@ export default function Cart() {
                         </button>
                       </div>
 
-                      {/* Price */}
                       <span className="w-20 text-right font-medium">
                         ${(product.price * product.quantity).toFixed(2)}
                       </span>
 
-                      {/* Remove button */}
                       <button
                         onClick={() => removeItem(index)}
                         className="ml-4 text-red-500 hover:text-red-700"
@@ -138,9 +196,10 @@ export default function Cart() {
               <div className="mt-6 text-right">
                 <button
                   onClick={handleCheckout}
-                  className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700"
+                  className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 disabled:opacity-50"
+                  disabled={isLoading}
                 >
-                  Checkout
+                  {isLoading ? "Processing..." : "Checkout"}
                 </button>
               </div>
             </div>
@@ -158,7 +217,6 @@ export default function Cart() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="text-center py-6 bg-gray-800 text-white">
         <p>&copy; 2025 Tech Store. All rights reserved.</p>
       </footer>
