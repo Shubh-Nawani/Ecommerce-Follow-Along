@@ -4,6 +4,7 @@ import AuthForm from "./AuthForm";
 import Home from "./Home";
 import AddressForm from "./AddressForm";
 import AddProduct from "./AddProduct";
+import BillingDetails from "./BillingDetails";
 import Cart from "./Cart";
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="/add-product" element={<AddProduct />} />
         <Route path="/address-form" element={<AddressForm />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/billingDetails" element={<BillingDetails />} />
       </Routes>
     </Router>
   );
