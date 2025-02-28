@@ -1,27 +1,28 @@
 const express = require('express');
-const app = express();
 const dotenv = require('dotenv');
 const cors = require('cors');
+
 const connectDB = require('./config/db');
 const userRouter = require('./routes/userRoute');
-const router = require("./routes/productRoute");
-const userCart = require("./routes/cart")
+const productRouter = require("./routes/productRoute");
+const userCart = require("./routes/cart");
 const profileRoutes = require("./routes/profileRoutes");
+
+const app = express();
+dotenv.config();
 app.use(express.json());
+
 app.use(
     cors({
-      origin: "http://localhost:5173", // Allow requests from frontend
-      credentials: true, // Allow credentials (cookies, sessions, etc.)
+      origin: process.env.CORS_ORIGIN, 
+      credentials: true, 
     })
-  );
-dotenv.config();
+);
 
-app.use("/saved", userCart)
+
+app.use("/saved", userCart);
 app.use("/profile", profileRoutes);
-
-app.use("/api", router);
-
-
+app.use("/api", productRouter);
 app.use("/api/users", userRouter);
 
 
@@ -32,7 +33,6 @@ app.get("/", (req, res) => {
         return res.status(500).json({error: err.message});
     }
 });
-
 
 const PORT = process.env.PORT || 4000;
 

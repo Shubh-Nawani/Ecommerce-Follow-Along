@@ -24,7 +24,8 @@ export default function AuthForm() {
       await axios.post(endpoint, formData, { withCredentials: true });
 
       // Redirect to home page after success
-      navigate("/home");
+      navigate('/home')
+      
     } catch (err) {
       setError("Authentication failed. Please try again.");
     }
